@@ -1,0 +1,1 @@
+{"text":"The President lives in the White House.","cloze":"White House","clozeDelete":"The President lives in the ___________.","type":"cloze"};

@@ -15,7 +15,7 @@ function ClozeCard(text, cloze){
 			type: "cloze"
 		};
 		// add card to card.txt
-		fs.appendFile("card.txt", JSON.stringify(data) + ';', "utf8", function(error) {
+		fs.appendFile("cards.txt", JSON.stringify(card) + ';', "utf8", function(error) {
 			if(error) {
 				console.log(error);
 			}

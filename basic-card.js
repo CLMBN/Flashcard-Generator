@@ -7,13 +7,13 @@ function BasicCard(front, back) {
 	this.front = front;
 	this.back = back;
 	this.create = function(){
-		var info = {
+		var card = {
 			front: this.front,
 			back: this.back,
 			type: "basic",
 		};
 		//add card to cards.txt
-		fs.appendFile("cards.txt", JSON.stringify(data) + ';', "utf8", function(error){
+		fs.appendFile("cards.txt", JSON.stringify(card) + ';', "utf8", function(error){
 			if (error) {
 				console.log(error);
 			}
