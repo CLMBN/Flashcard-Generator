@@ -12,14 +12,14 @@ var userPrompt = function() {
 		message: "What would you like to do?",
 		type: 'list',
 		choices: [{
-			name: 'Create a new Flash Card?'
+			name: 'Create a new Flash Card'
 		},{
-			name: 'Show all cards'
+			name: 'Take the test'
 		}]
 	}]).then(function(answer){
-		if (answer.initial === 'Create a new Flash Card?') {
+		if (answer.initial === 'Create a new Flash Card') {
 			addCard();
-		}else if (answer.initial === 'Show all cards') {
+		}else if (answer.initial === 'Take the test') {
 			showCards();
 		}
 	});
@@ -67,6 +67,7 @@ var addCard = function() {
 			}]).then(function(answer) {
 				var newBasicCard = new BasicCard(answer.front, answer.back);
 				newBasicCard.create();
+				console.log('\n----------------\n');
 				userPrompt();
 			});
 
@@ -101,9 +102,11 @@ var addCard = function() {
 				if (text.includes(cloze)) {
 					var newCloze = new ClozeCard(text, cloze);
 					newCloze.create();
+					console.log('\n----------------\n');
 					userPrompt();
 				}else {
 					console.log('The section you provided does not match any portion of the full phrase. Please try again.');
+					console.log('\n----------------\n');
 					addCard();
 				}
 			});
@@ -145,11 +148,13 @@ var showQuestion = function(array, index) {
 	}]).then(function(answer) {
 		if(answer.testQuestion == correctAnswer) {
 			console.log('Good Job! Thats Correct!');
+			console.log('\n----------------\n');
 			if(index < array.length -1) {
 				showQuestion(array, index +1);
 			}
 		}else {
 			console.log("Thats the wrong answer!");
+			console.log('\n----------------\n');
 			if(index < array.length -1) {
 				showQuestion(array, index +1);
 			}
