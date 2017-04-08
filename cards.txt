@@ -1,1 +1,1 @@
-{"front":"Who is the current President of the United States?","back":"Donald Trump","type":"basic"};
+{"front":"Who is the current President of the United States?","back":"Donald Trump","type":"basic"};{"front":"How many states are in the USA?","back":"50","type":"basic"};{"text":"The capital of the USA is Washington D.C.","cloze":"Washington D.C.","clozeDelete":"The capital of the USA is ___________","type":"cloze"};

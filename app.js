@@ -4,22 +4,28 @@ var inquirer = require("inquirer");
 var fs = require("fs");
 
 // initial question to create card or view cards
-inquirer.prompt([{
-	name: 'initial',
-	message: "What would you like to do?",
-	type: 'list',
-	choices: [{
-		name: 'add-new-card'
-	},{
-		name: 'show-cards'
-	}]
-}]).then(function(answer){
-	if (answer.initial === 'add-new-card') {
-		addCard();
-	}else if (answer.initial === 'show-cards') {
-		showCards();
-	}
-});
+
+
+var userPrompt = function() {
+	inquirer.prompt([{
+		name: 'initial',
+		message: "What would you like to do?",
+		type: 'list',
+		choices: [{
+			name: 'Create a new Flash Card?'
+		},{
+			name: 'Show all cards'
+		}]
+	}]).then(function(answer){
+		if (answer.initial === 'Create a new Flash Card?') {
+			addCard();
+		}else if (answer.initial === 'Show all cards') {
+			showCards();
+		}
+	});
+};
+
+userPrompt();
 
 var addCard = function() {
 	//ask for type of card to create
@@ -61,7 +67,7 @@ var addCard = function() {
 			}]).then(function(answer) {
 				var newBasicCard = new BasicCard(answer.front, answer.back);
 				newBasicCard.create();
-				nextPrompt();
+				userPrompt();
 			});
 
 		//create cloze card
@@ -95,12 +101,58 @@ var addCard = function() {
 				if (text.includes(cloze)) {
 					var newCloze = new ClozeCard(text, cloze);
 					newCloze.create();
-					nextPrompt();
+					userPrompt();
 				}else {
 					console.log('The section you provided does not match any portion of the full phrase. Please try again.');
 					addCard();
 				}
 			});
+		}
+	});
+};
+
+var showCards = function() {
+	// read the cards.txt file to get FlashCards
+	fs.readFile('./cards.txt', 'utf8', function(error, data) {
+		if(error) {
+			console.log("An Error has occured: " + error);
+		}
+		var questions = data.split(';');
+		var notBlank = function(value) {
+			return value;
+		};
+		questions = questions.filter(notBlank);
+		var count = 0;
+		showQuestion(questions, count);
+	});
+};
+
+var showQuestion = function(array, index) {
+	question = array[index];
+	var parsedQuestion = JSON.parse(question);
+	var questionText;
+	var correctAnswer;
+	if (parsedQuestion.type === 'basic') {
+		questionText = parsedQuestion.front;
+		correctAnswer = parsedQuestion.back;
+	}else if (parsedQuestion.type === 'cloze') {
+		questionText = parsedQuestion.clozeDelete;
+		correctAnswer = parsedQuestion.cloze;
+	}
+	inquirer.prompt([{
+		name: 'testQuestion',
+		message: questionText
+	}]).then(function(answer) {
+		if(answer.testQuestion == correctAnswer) {
+			console.log('Good Job! Thats Correct!');
+			if(index < array.length -1) {
+				showQuestion(array, index +1);
+			}
+		}else {
+			console.log("Thats the wrong answer!");
+			if(index < array.length -1) {
+				showQuestion(array, index +1);
+			}
 		}
 	});
 };
