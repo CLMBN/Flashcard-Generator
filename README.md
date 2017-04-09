@@ -13,3 +13,9 @@ Follow the prompts on the screen to choose either to create a card or take the t
 
 ### Basic Flash Card
 The Basic Flash Card will have a question and and answer section. Create each and it will get stored in the Cards.txt file. 
+
+### Cloze Flash Card
+The Cloze Flash Card will allow you to create a sentence and hide a section which you will tested to guess later on.
+
+#### Functionality
+Cards will be saved to the Cards.txt files
